@@ -1,0 +1,13 @@
+# Virtual environments
+venv/
+.venv/
+
+# PyCharm
+.idea/
+
+# Python cache
+__pycache__/
+*.pyc
+
+# Generated EDA output (if duplicate of Dashboard/static/eda_images)
+eda_output/
