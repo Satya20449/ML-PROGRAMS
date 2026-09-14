@@ -2,11 +2,13 @@
 <html lang="en">
 
 <head>
+
     <meta charset="UTF-8">
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>PlacementAI Dashboard</title>
+
 
     <style>
 
@@ -16,15 +18,18 @@
             box-sizing: border-box;
         }
 
+
         body {
             font-family: Arial, sans-serif;
             background: #eef1f7;
             color: #27384d;
         }
 
+
         /* ================= SIDEBAR ================= */
 
         .sidebar {
+
             width: 260px;
             height: 100vh;
 
@@ -36,41 +41,58 @@
             color: white;
 
             padding: 30px 18px;
+
+            overflow-y: auto;
         }
 
+
         .logo {
+
             font-size: 28px;
             font-weight: bold;
+
             margin-bottom: 8px;
         }
 
+
         .tagline {
+
             color: #b9c3d3;
             font-size: 14px;
-            margin-bottom: 45px;
+
+            margin-bottom: 35px;
         }
 
+
         .menu {
+
             display: flex;
             flex-direction: column;
+
             gap: 10px;
         }
 
+
         .menu a {
+
             text-decoration: none;
             color: #d6dce7;
 
-            padding: 16px;
+            padding: 14px;
+
             border-radius: 10px;
 
-            font-size: 16px;
+            font-size: 15px;
+
             cursor: pointer;
 
             transition: 0.3s;
         }
 
+
         .menu a:hover,
         .menu a.active {
+
             background: #3265d0;
             color: white;
         }
@@ -79,27 +101,41 @@
         /* ================= MAIN CONTENT ================= */
 
         .content {
+
             margin-left: 260px;
+
             padding: 45px;
+
             min-height: 100vh;
         }
 
+
         .page {
+
             display: none;
         }
 
+
         .page.active-page {
+
             display: block;
         }
 
+
         h1 {
+
             font-size: 36px;
+
             margin-bottom: 10px;
         }
 
+
         .subtitle {
+
             color: #64748b;
+
             font-size: 17px;
+
             margin-bottom: 35px;
         }
 
@@ -107,6 +143,7 @@
         /* ================= CARDS ================= */
 
         .cards {
+
             display: grid;
 
             grid-template-columns:
@@ -117,7 +154,9 @@
             margin-bottom: 40px;
         }
 
+
         .card {
+
             background: white;
 
             padding: 25px;
@@ -128,15 +167,23 @@
                 0 8px 25px rgba(0, 0, 0, 0.08);
         }
 
+
         .card h3 {
+
             color: #64748b;
+
             font-size: 16px;
+
             margin-bottom: 15px;
         }
 
+
         .card p {
+
             color: #315da5;
+
             font-size: 28px;
+
             font-weight: bold;
         }
 
@@ -144,6 +191,7 @@
         /* ================= SECTIONS ================= */
 
         .section {
+
             background: white;
 
             padding: 30px;
@@ -156,13 +204,19 @@
                 0 8px 25px rgba(0, 0, 0, 0.06);
         }
 
+
         .section h2 {
+
             margin-bottom: 18px;
+
             color: #27384d;
         }
 
+
         .section p {
+
             line-height: 1.7;
+
             color: #596579;
         }
 
@@ -170,20 +224,30 @@
         /* ================= TABLE ================= */
 
         table {
+
             width: 100%;
+
             border-collapse: collapse;
+
             margin-top: 20px;
         }
 
+
         th {
+
             background: #3265d0;
+
             color: white;
         }
 
+
         th,
         td {
+
             padding: 12px;
+
             text-align: center;
+
             border: 1px solid #ddd;
         }
 
@@ -191,6 +255,7 @@
         /* ================= EDA ================= */
 
         .eda-grid {
+
             display: grid;
 
             grid-template-columns:
@@ -199,7 +264,9 @@
             gap: 25px;
         }
 
+
         .eda-card {
+
             background: white;
 
             padding: 20px;
@@ -210,26 +277,123 @@
                 0 8px 25px rgba(0, 0, 0, 0.08);
         }
 
+
         .eda-card h3 {
+
             margin-bottom: 15px;
+
             text-transform: capitalize;
         }
 
+
         .eda-card img {
+
             width: 100%;
+
             border-radius: 10px;
+        }
+
+
+        /* ================= MODEL CARDS ================= */
+
+        .model-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(auto-fit, minmax(250px, 1fr));
+
+            gap: 20px;
+        }
+
+
+        .model-card {
+
+            background: white;
+
+            padding: 25px;
+
+            border-radius: 18px;
+
+            box-shadow:
+                0 8px 25px rgba(0, 0, 0, 0.08);
+
+            border-left: 5px solid #3265d0;
+        }
+
+
+        .model-card h3 {
+
+            margin-bottom: 12px;
+
+            color: #27384d;
+        }
+
+
+        .model-card p {
+
+            color: #64748b;
+
+            line-height: 1.6;
+        }
+
+
+        .model-type {
+
+            display: inline-block;
+
+            margin-top: 15px;
+
+            padding: 6px 12px;
+
+            border-radius: 20px;
+
+            background: #eef3ff;
+
+            color: #315da5;
+
+            font-size: 13px;
+
+            font-weight: bold;
+        }
+
+
+        /* ================= STATUS ================= */
+
+        .status-box {
+
+            padding: 18px;
+
+            border-radius: 12px;
+
+            margin-top: 15px;
+
+            background: #f4f7fb;
+
+            color: #526174;
+        }
+
+
+        .status-success {
+
+            border-left: 5px solid #3265d0;
         }
 
 
         /* ================= LIST ================= */
 
         .column-list {
+
             columns: 3;
+
             column-gap: 40px;
         }
 
+
         .column-list li {
+
             margin: 10px;
+
             color: #526174;
         }
 
@@ -239,17 +403,30 @@
         @media (max-width: 800px) {
 
             .sidebar {
+
                 width: 100%;
+
                 height: auto;
+
                 position: relative;
             }
 
+
             .content {
+
                 margin-left: 0;
             }
 
+
             .column-list {
+
                 columns: 1;
+            }
+
+
+            .eda-grid {
+
+                grid-template-columns: 1fr;
             }
 
         }
@@ -262,15 +439,16 @@
 <body>
 
 
-<!-- ========================================= -->
+<!-- ========================================================= -->
 <!-- SIDEBAR -->
-<!-- ========================================= -->
+<!-- ========================================================= -->
 
 <div class="sidebar">
 
     <div class="logo">
         🎓 PlacementAI
     </div>
+
 
     <div class="tagline">
         Student Placement Prediction
@@ -304,6 +482,18 @@
 
 
         <a class="nav-link"
+           onclick="showPage('models', this)">
+            🤖 Machine Learning
+        </a>
+
+
+        <a class="nav-link"
+           onclick="showPage('clustering', this)">
+            🔵 Clustering
+        </a>
+
+
+        <a class="nav-link"
            onclick="showPage('about', this)">
             ℹ️ About Project
         </a>
@@ -313,16 +503,16 @@
 </div>
 
 
-<!-- ========================================= -->
+<!-- ========================================================= -->
 <!-- MAIN CONTENT -->
-<!-- ========================================= -->
+<!-- ========================================================= -->
 
 <div class="content">
 
 
-    <!-- ===================================== -->
+    <!-- ===================================================== -->
     <!-- PAGE 1 : DASHBOARD -->
-    <!-- ===================================== -->
+    <!-- ===================================================== -->
 
     <div id="dashboard" class="page active-page">
 
@@ -330,57 +520,82 @@
 
         <p class="subtitle">
             Student Placement Prediction Dataset –
-            Exploratory Data Analysis Dashboard
+            Exploratory Data Analysis and Machine Learning Dashboard
         </p>
 
 
         <div class="cards">
 
+
             <div class="card">
+
                 <h3>🎓 Total Students</h3>
+
                 <p>{{ total_students }}</p>
+
             </div>
 
 
             <div class="card">
+
                 <h3>📋 Total Features</h3>
+
                 <p>{{ total_features }}</p>
+
             </div>
 
 
             <div class="card">
+
                 <h3>✅ Placed Students</h3>
+
                 <p>{{ placed_students }}</p>
+
             </div>
 
 
             <div class="card">
+
                 <h3>❌ Not Placed</h3>
+
                 <p>{{ not_placed_students }}</p>
+
             </div>
 
 
             <div class="card">
+
                 <h3>📈 Placement Rate</h3>
+
                 <p>{{ placement_rate }}%</p>
+
             </div>
 
 
             <div class="card">
+
                 <h3>🎓 Average CGPA</h3>
+
                 <p>{{ average_cgpa }}</p>
+
             </div>
 
 
             <div class="card">
-                <h3>💰 Average Salary Package</h3>
+
+                <h3>💰 Average Salary</h3>
+
                 <p>{{ average_salary }}</p>
+
             </div>
 
 
             <div class="card">
+
                 <h3>⚠️ Missing Values</h3>
+
                 <p>{{ missing_values }}</p>
+
             </div>
 
         </div>
@@ -393,20 +608,51 @@
             <p>
                 This PlacementAI dashboard provides an overview
                 of the Student Placement Prediction dataset.
-                The dataset contains student academic performance,
-                technical skills, internships, projects,
-                certifications, placement status and salary package.
+                The project uses Exploratory Data Analysis,
+                preprocessing, clustering and Machine Learning
+                techniques to analyze student placement data.
             </p>
+
+        </div>
+
+
+        <div class="section">
+
+            <h2>⚙️ Preprocessing Status</h2>
+
+            {% if preprocessing_available %}
+
+            <div class="status-box status-success">
+
+                ✅ Preprocessed dataset is available.
+
+                <br><br>
+
+                Processed Features:
+                <b>{{ preprocessed_features }}</b>
+
+            </div>
+
+            {% else %}
+
+            <div class="status-box">
+
+                ⚠️ Preprocessed dataset not found.
+
+                Run <b>preprocessing.py</b> first.
+
+            </div>
+
+            {% endif %}
 
         </div>
 
     </div>
 
 
-
-    <!-- ===================================== -->
+    <!-- ===================================================== -->
     <!-- PAGE 2 : DATASET OVERVIEW -->
-    <!-- ===================================== -->
+    <!-- ===================================================== -->
 
     <div id="dataset" class="page">
 
@@ -419,27 +665,40 @@
 
         <div class="cards">
 
+
             <div class="card">
+
                 <h3>📄 Total Records</h3>
+
                 <p>{{ total_students }}</p>
+
             </div>
 
 
             <div class="card">
+
                 <h3>📊 Total Columns</h3>
+
                 <p>{{ total_features }}</p>
+
             </div>
 
 
             <div class="card">
+
                 <h3>⚠️ Missing Values</h3>
+
                 <p>{{ missing_values }}</p>
+
             </div>
 
 
             <div class="card">
+
                 <h3>🔁 Duplicate Records</h3>
+
                 <p>{{ duplicates }}</p>
+
             </div>
 
         </div>
@@ -469,8 +728,11 @@
             <table>
 
                 <tr>
+
                     <th>Column</th>
+
                     <th>Missing Values</th>
+
                 </tr>
 
 
@@ -497,10 +759,9 @@
     </div>
 
 
-
-    <!-- ===================================== -->
+    <!-- ===================================================== -->
     <!-- PAGE 3 : PLACEMENT ANALYSIS -->
-    <!-- ===================================== -->
+    <!-- ===================================================== -->
 
     <div id="placement" class="page">
 
@@ -513,33 +774,49 @@
 
         <div class="cards">
 
+
             <div class="card">
+
                 <h3>✅ Placed Students</h3>
+
                 <p>{{ placed_students }}</p>
+
             </div>
 
 
             <div class="card">
+
                 <h3>❌ Not Placed</h3>
+
                 <p>{{ not_placed_students }}</p>
+
             </div>
 
 
             <div class="card">
+
                 <h3>📈 Placement Rate</h3>
+
                 <p>{{ placement_rate }}%</p>
+
             </div>
 
 
             <div class="card">
+
                 <h3>🎓 Average CGPA</h3>
+
                 <p>{{ average_cgpa }}</p>
+
             </div>
 
 
             <div class="card">
+
                 <h3>💰 Average Salary</h3>
+
                 <p>{{ average_salary }}</p>
+
             </div>
 
         </div>
@@ -550,17 +827,22 @@
             <h2>🎯 Placement Insights</h2>
 
             <p>
+
                 The dataset contains
-                {{ placed_students }} placed students
-                and {{ not_placed_students }} students
-                who were not placed.
+                <b>{{ placed_students }}</b>
+                placed students and
+                <b>{{ not_placed_students }}</b>
+                students who were not placed.
+
             </p>
 
             <br>
 
             <p>
+
                 Overall placement rate is
                 <b>{{ placement_rate }}%</b>.
+
             </p>
 
         </div>
@@ -571,11 +853,13 @@
             <h2>📊 Important Factors</h2>
 
             <p>
-                According to the EDA correlation analysis,
-                Semester SGPA, CGPA, Mock Interview Score,
-                Soft Skills, Coding Test Score,
-                Certifications and Projects show strong
-                relationships with Placement Status.
+
+                Academic performance, CGPA, semester performance,
+                aptitude scores, coding skills, soft skills,
+                projects, internships, certifications and
+                interview performance are considered as important
+                student-related features for placement analysis.
+
             </p>
 
         </div>
@@ -583,10 +867,9 @@
     </div>
 
 
-
-    <!-- ===================================== -->
-    <!-- PAGE 4 : EDA VISUALIZATIONS -->
-    <!-- ===================================== -->
+    <!-- ===================================================== -->
+    <!-- PAGE 4 : EDA -->
+    <!-- ===================================================== -->
 
     <div id="eda" class="page">
 
@@ -606,19 +889,24 @@
             <div class="eda-card">
 
                 <h3>
+
                     {{ image
                         .replace("_", " ")
                         .replace(".png", "")
                     }}
+
                 </h3>
 
 
                 <img
+
                     src="{{ url_for(
                         'static',
                         filename='eda_images/' + image
                     ) }}"
+
                     alt="{{ image }}"
+
                 >
 
             </div>
@@ -635,8 +923,9 @@
             <h2>No EDA Images Found</h2>
 
             <p>
-                Run EDA.py and copy all generated graph
-                images into static/eda_images.
+
+                Run EDA.py and generate the graphs first.
+
             </p>
 
         </div>
@@ -646,10 +935,360 @@
     </div>
 
 
+    <!-- ===================================================== -->
+    <!-- PAGE 5 : MACHINE LEARNING -->
+    <!-- ===================================================== -->
 
-    <!-- ===================================== -->
-    <!-- PAGE 5 : ABOUT PROJECT -->
-    <!-- ===================================== -->
+    <div id="models" class="page">
+
+        <h1>Machine Learning Models</h1>
+
+        <p class="subtitle">
+            Machine Learning algorithms implemented for the
+            Placement Prediction project
+        </p>
+
+
+        <div class="model-grid">
+
+
+            <div class="model-card">
+
+                <h3>🌳 Decision Tree</h3>
+
+                <p>
+                    Decision Tree classifier used for
+                    predicting student placement status.
+                </p>
+
+                <span class="model-type">
+                    Classification
+                </span>
+
+            </div>
+
+
+            <div class="model-card">
+
+                <h3>🚀 AdaBoost</h3>
+
+                <p>
+                    AdaBoost ensemble technique that combines
+                    multiple weak learners to improve classification.
+                </p>
+
+                <span class="model-type">
+                    Ensemble Classification
+                </span>
+
+            </div>
+
+
+            <div class="model-card">
+
+                <h3>📦 Bagging</h3>
+
+                <p>
+                    Bagging classifier using multiple decision
+                    tree estimators to improve prediction stability.
+                </p>
+
+                <span class="model-type">
+                    Ensemble Classification
+                </span>
+
+            </div>
+
+
+            <div class="model-card">
+
+                <h3>⚡ Boosting</h3>
+
+                <p>
+                    Boosting technique that sequentially combines
+                    weak learners for improved classification.
+                </p>
+
+                <span class="model-type">
+                    Ensemble Classification
+                </span>
+
+            </div>
+
+
+            <div class="model-card">
+
+                <h3>📈 Gradient Boosting</h3>
+
+                <p>
+                    Gradient Boosting classifier used to predict
+                    student placement status.
+                </p>
+
+                <span class="model-type">
+                    Ensemble Classification
+                </span>
+
+            </div>
+
+
+            <div class="model-card">
+
+                <h3>📊 Logistic Regression</h3>
+
+                <p>
+                    Classification algorithm used to predict
+                    whether a student will be placed or not.
+                </p>
+
+                <span class="model-type">
+                    Classification
+                </span>
+
+            </div>
+
+
+            <div class="model-card">
+
+                <h3>📊 Logistic Regression + Scaler</h3>
+
+                <p>
+                    Logistic Regression with StandardScaler
+                    for standardized numerical feature values.
+                </p>
+
+                <span class="model-type">
+                    Classification
+                </span>
+
+            </div>
+
+
+            <div class="model-card">
+
+                <h3>📉 Linear Regression</h3>
+
+                <p>
+                    Linear Regression used to predict the
+                    student's Salary Package.
+                </p>
+
+                <span class="model-type">
+                    Regression
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <div class="section" style="margin-top: 30px;">
+
+            <h2>🎯 Prediction Targets</h2>
+
+            <table>
+
+                <tr>
+
+                    <th>Model Type</th>
+
+                    <th>Target</th>
+
+                    <th>Purpose</th>
+
+                </tr>
+
+
+                <tr>
+
+                    <td>Classification</td>
+
+                    <td>PlacementStatus</td>
+
+                    <td>
+                        Predict whether a student is placed
+                    </td>
+
+                </tr>
+
+
+                <tr>
+
+                    <td>Regression</td>
+
+                    <td>Salary Package</td>
+
+                    <td>
+                        Predict student's salary package
+                    </td>
+
+                </tr>
+
+            </table>
+
+        </div>
+
+    </div>
+
+
+    <!-- ===================================================== -->
+    <!-- PAGE 6 : CLUSTERING -->
+    <!-- ===================================================== -->
+
+    <div id="clustering" class="page">
+
+        <h1>Clustering</h1>
+
+        <p class="subtitle">
+            K-Means clustering and cluster-based analysis
+        </p>
+
+
+        <div class="model-grid">
+
+
+            <div class="model-card">
+
+                <h3>🔵 K-Means Simple</h3>
+
+                <p>
+                    Basic K-Means clustering implementation
+                    using student CGPA and Aptitude Test Score.
+                </p>
+
+                <span class="model-type">
+                    Clustering
+                </span>
+
+            </div>
+
+
+            <div class="model-card">
+
+                <h3>📐 K Calculation - K-Means</h3>
+
+                <p>
+                    Uses the Elbow Method and WCSS values
+                    to help determine a suitable number of clusters.
+                </p>
+
+                <span class="model-type">
+                    Elbow Method
+                </span>
+
+            </div>
+
+
+            <div class="model-card">
+
+                <h3>🎯 K-Means Final</h3>
+
+                <p>
+                    Final K-Means clustering using the selected
+                    number of clusters and student performance features.
+                </p>
+
+                <span class="model-type">
+                    Clustering
+                </span>
+
+            </div>
+
+
+            <div class="model-card">
+
+                <h3>⚠️ K-Means Outliers</h3>
+
+                <p>
+                    Identifies observations that are far from
+                    their assigned K-Means cluster center.
+                </p>
+
+                <span class="model-type">
+                    Outlier Detection
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <div class="section" style="margin-top: 30px;">
+
+            <h2>📊 Clustering Features</h2>
+
+            <table>
+
+                <tr>
+
+                    <th>Feature</th>
+
+                    <th>Description</th>
+
+                </tr>
+
+
+                <tr>
+
+                    <td>CGPA</td>
+
+                    <td>
+                        Normalized student CGPA
+                    </td>
+
+                </tr>
+
+
+                <tr>
+
+                    <td>Aptitude Test Score</td>
+
+                    <td>
+                        Normalized aptitude test performance
+                    </td>
+
+                </tr>
+
+            </table>
+
+        </div>
+
+
+        <div class="section">
+
+            <h2>🔢 K-Means Workflow</h2>
+
+            <p>
+
+                1. Select student performance features.
+
+                <br><br>
+
+                2. Calculate suitable K using the Elbow Method.
+
+                <br><br>
+
+                3. Apply K-Means clustering.
+
+                <br><br>
+
+                4. Analyze cluster centers and cluster sizes.
+
+                <br><br>
+
+                5. Identify possible outliers based on distance
+                from cluster centers.
+
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <!-- ===================================================== -->
+    <!-- PAGE 7 : ABOUT -->
+    <!-- ===================================================== -->
 
     <div id="about" class="page">
 
@@ -676,11 +1315,30 @@
             <h2>🎯 Objective</h2>
 
             <p>
-                The main objective of this project is to
-                analyze student academic and performance
-                data using Exploratory Data Analysis and
-                Machine Learning techniques to understand
-                factors influencing student placement.
+
+                The main objective of this project is to analyze
+                student academic, technical and performance data
+                using Exploratory Data Analysis, preprocessing,
+                clustering and Machine Learning techniques.
+
+            </p>
+
+        </div>
+
+
+        <div class="section">
+
+            <h2>⚙️ Data Preprocessing</h2>
+
+            <p>
+
+                The preprocessing stage handles missing values,
+                numerical outliers, normalization and conversion
+                of categorical features into numerical values.
+
+                The processed dataset is stored as
+                <b>placement_preprocessed.csv</b>.
+
             </p>
 
         </div>
@@ -691,11 +1349,13 @@
             <h2>📊 Exploratory Data Analysis</h2>
 
             <p>
+
                 The EDA includes missing value analysis,
                 duplicate analysis, feature distributions,
                 outlier detection, correlation analysis,
                 placement analysis, SGPA trends and
                 salary package analysis.
+
             </p>
 
         </div>
@@ -706,10 +1366,29 @@
             <h2>🤖 Machine Learning</h2>
 
             <p>
-                The dataset can be used to train Machine
-                Learning models for predicting student
-                placement status based on academic,
-                technical and personal performance features.
+
+                Several Machine Learning algorithms are
+                implemented for classification and regression,
+                including Decision Tree, AdaBoost, Bagging,
+                Boosting, Gradient Boosting, Logistic Regression
+                and Linear Regression.
+
+            </p>
+
+        </div>
+
+
+        <div class="section">
+
+            <h2>🔵 Clustering</h2>
+
+            <p>
+
+                K-Means clustering is used to group students
+                based on selected performance features.
+                The project also includes Elbow Method based
+                K calculation and K-Means based outlier detection.
+
             </p>
 
         </div>
@@ -720,23 +1399,27 @@
 </div>
 
 
-
-<!-- ========================================= -->
+<!-- ========================================================= -->
 <!-- JAVASCRIPT -->
-<!-- ========================================= -->
+<!-- ========================================================= -->
 
 <script>
 
+
     function showPage(pageId, clickedLink) {
+
 
         // Hide all pages
 
         const pages =
             document.querySelectorAll(".page");
 
+
         pages.forEach(function(page) {
 
-            page.classList.remove("active-page");
+            page.classList.remove(
+                "active-page"
+            );
 
         });
 
@@ -753,6 +1436,7 @@
 
         const links =
             document.querySelectorAll(".nav-link");
+
 
         links.forEach(function(link) {
 
@@ -778,11 +1462,12 @@
     }
 
 
-    // =====================================
+    // ========================================================
     // OPEN CORRECT SECTION FROM URL HASH
-    // =====================================
+    // ========================================================
 
     window.onload = function() {
+
 
         const hash =
             window.location.hash.replace("#", "");
@@ -790,11 +1475,13 @@
 
         if (hash) {
 
+
             const page =
                 document.getElementById(hash);
 
 
             if (page) {
+
 
                 document
                     .querySelectorAll(".page")
@@ -820,15 +1507,21 @@
 
                 links.forEach(function(link) {
 
-                    link.classList.remove("active");
+                    link.classList.remove(
+                        "active"
+                    );
 
 
                     if (
                         link.getAttribute("onclick")
-                        .includes("'" + hash + "'")
+                        &&
+                        link.getAttribute("onclick")
+                            .includes("'" + hash + "'")
                     ) {
 
-                        link.classList.add("active");
+                        link.classList.add(
+                            "active"
+                        );
 
                     }
 

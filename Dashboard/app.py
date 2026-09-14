@@ -5,153 +5,480 @@ import shutil
 
 app = Flask(__name__)
 
-# =================================================
+
+# ============================================================
 # PATHS
-# =================================================
+# ============================================================
 
 BASE_DIR = Path(__file__).resolve().parent
 
-# placementprediction.csv is outside Dashboard folder
+# Original dataset
 DATA_FILE = BASE_DIR.parent / "placementprediction.csv"
 
-# EDA.py generates graphs here
+# Preprocessed dataset used by ML models
+PREPROCESSED_FILE = BASE_DIR.parent / "placement_preprocessed.csv"
+
+# EDA output folder
 EDA_SOURCE = BASE_DIR.parent / "eda_output"
 
-# Flask dashboard reads graphs from here
+# Dashboard EDA images folder
 EDA_DESTINATION = BASE_DIR / "static" / "eda_images"
 
 
-# =================================================
+# ============================================================
 # COPY EDA IMAGES
-# =================================================
+# ============================================================
 
 def copy_eda_images():
 
-    EDA_DESTINATION.mkdir(parents=True, exist_ok=True)
+    # Create destination folder
+    EDA_DESTINATION.mkdir(
+        parents=True,
+        exist_ok=True
+    )
 
+    # Copy all PNG files from EDA output
     if EDA_SOURCE.exists():
 
         for image in EDA_SOURCE.glob("*.png"):
 
             destination = EDA_DESTINATION / image.name
 
-            shutil.copy2(image, destination)
+            try:
+
+                shutil.copy2(
+                    image,
+                    destination
+                )
+
+            except Exception as e:
+
+                print(
+                    f"Could not copy {image.name}: {e}"
+                )
 
 
-# =================================================
-# LOAD DATA
-# =================================================
+# ============================================================
+# LOAD ORIGINAL DATASET
+# ============================================================
 
 def load_data():
+
+    if not DATA_FILE.exists():
+
+        raise FileNotFoundError(
+            f"Original dataset not found:\n{DATA_FILE}"
+        )
 
     return pd.read_csv(DATA_FILE)
 
 
-# =================================================
-# DASHBOARD
-# =================================================
+# ============================================================
+# CHECK PREPROCESSED DATASET
+# ============================================================
+
+def check_preprocessed_data():
+
+    if PREPROCESSED_FILE.exists():
+
+        try:
+
+            df = pd.read_csv(
+                PREPROCESSED_FILE,
+                nrows=5
+            )
+
+            return {
+                "available": True,
+                "columns": len(df.columns)
+            }
+
+        except Exception as e:
+
+            print(
+                f"Could not read preprocessed dataset: {e}"
+            )
+
+            return {
+                "available": False,
+                "columns": 0
+            }
+
+    return {
+        "available": False,
+        "columns": 0
+    }
+
+
+# ============================================================
+# DASHBOARD HOME
+# ============================================================
 
 @app.route("/")
 def home():
 
-    # Copy EDA graphs automatically
+    print("\n============================================")
+    print("Loading PlacementAI Dashboard...")
+    print("============================================")
+
+
+    # ========================================================
+    # COPY EDA IMAGES
+    # ========================================================
+
     copy_eda_images()
 
-    # Load dataset
+
+    # ========================================================
+    # LOAD ORIGINAL DATASET
+    # ========================================================
+
     df = load_data()
 
-    # ---------------------------------------------
+
+    # ========================================================
     # BASIC STATISTICS
-    # ---------------------------------------------
+    # ========================================================
 
     total_students = len(df)
 
     total_features = len(df.columns)
 
-    placed_students = int(
-        (df["PlacementStatus"] == 1).sum()
-    )
 
-    not_placed_students = int(
-        (df["PlacementStatus"] == 0).sum()
-    )
+    # ========================================================
+    # DATASET COLUMN NAMES
+    # ========================================================
+
+    column_names = df.columns.tolist()
+
+
+    # ========================================================
+    # MISSING VALUE REPORT
+    # ========================================================
+
+    missing_report = [
+
+        {
+            "Column": column,
+            "Missing Values": int(
+                df[column].isnull().sum()
+            )
+        }
+
+        for column in df.columns
+
+    ]
+
+
+    # ========================================================
+    # PLACEMENT STATUS
+    # ========================================================
+
+    if "PlacementStatus" in df.columns:
+
+        placed_students = int(
+            (
+                df["PlacementStatus"] == 1
+            ).sum()
+        )
+
+        not_placed_students = int(
+            (
+                df["PlacementStatus"] == 0
+            ).sum()
+        )
+
+    else:
+
+        placed_students = 0
+
+        not_placed_students = 0
+
+
+    # ========================================================
+    # MISSING VALUES
+    # ========================================================
 
     missing_values = int(
         df.isnull().sum().sum()
     )
 
+
+    # ========================================================
+    # DUPLICATES
+    # ========================================================
+
     duplicates = int(
         df.duplicated().sum()
     )
 
-    placement_rate = round(
-        (placed_students / total_students) * 100,
-        2
-    )
 
-    average_cgpa = round(
-        df["CGPA"].mean(),
-        2
-    )
+    # ========================================================
+    # PLACEMENT RATE
+    # ========================================================
 
-    # ---------------------------------------------
-    # SALARY ANALYSIS
-    # ---------------------------------------------
+    if total_students > 0:
 
-    placed_df = df[
-        df["PlacementStatus"] == 1
-    ]
+        placement_rate = round(
 
-    average_salary = round(
-        placed_df["Salary Package"].mean(),
-        2
-    )
+            (
+                placed_students
+                /
+                total_students
+            )
+            * 100,
 
-    # ---------------------------------------------
-    # GET EDA GRAPH NAMES
-    # ---------------------------------------------
+            2
+        )
+
+    else:
+
+        placement_rate = 0
+
+
+    # ========================================================
+    # AVERAGE CGPA
+    # ========================================================
+
+    if "CGPA" in df.columns:
+
+        average_cgpa = round(
+
+            pd.to_numeric(
+
+                df["CGPA"],
+
+                errors="coerce"
+
+            ).mean(),
+
+            2
+        )
+
+    else:
+
+        average_cgpa = 0
+
+
+    # ========================================================
+    # AVERAGE SALARY
+    # ========================================================
+
+    if (
+        "Salary Package" in df.columns
+        and
+        "PlacementStatus" in df.columns
+    ):
+
+        placed_df = df[
+            df["PlacementStatus"] == 1
+        ]
+
+
+        average_salary = round(
+
+            pd.to_numeric(
+
+                placed_df["Salary Package"],
+
+                errors="coerce"
+
+            ).mean(),
+
+            2
+        )
+
+    else:
+
+        average_salary = 0
+
+
+    # ========================================================
+    # EDA IMAGES
+    # ========================================================
 
     eda_images = []
+
 
     if EDA_DESTINATION.exists():
 
         eda_images = sorted(
+
             [
                 image.name
-                for image in EDA_DESTINATION.glob("*.png")
+
+                for image
+                in EDA_DESTINATION.glob("*.png")
+
             ]
+
         )
 
-    # ---------------------------------------------
+
+    # ========================================================
+    # PREPROCESSED DATA STATUS
+    # ========================================================
+
+    preprocessing_status = (
+        check_preprocessed_data()
+    )
+
+
+    # ========================================================
+    # PRINT DASHBOARD INFORMATION
+    # ========================================================
+
+    print("\nDashboard Statistics:")
+
+    print(
+        "Total Students:",
+        total_students
+    )
+
+    print(
+        "Total Features:",
+        total_features
+    )
+
+    print(
+        "Placed Students:",
+        placed_students
+    )
+
+    print(
+        "Not Placed Students:",
+        not_placed_students
+    )
+
+    print(
+        "Placement Rate:",
+        placement_rate,
+        "%"
+    )
+
+    print(
+        "Average CGPA:",
+        average_cgpa
+    )
+
+    print(
+        "Average Salary:",
+        average_salary
+    )
+
+    print(
+        "Missing Values:",
+        missing_values
+    )
+
+    print(
+        "Duplicate Records:",
+        duplicates
+    )
+
+    print(
+        "EDA Images:",
+        len(eda_images)
+    )
+
+    print(
+        "Preprocessed Dataset:",
+        preprocessing_status["available"]
+    )
+
+    print(
+        "Preprocessed Features:",
+        preprocessing_status["columns"]
+    )
+
+
+    # ========================================================
     # SEND DATA TO INDEX.HTML
-    # ---------------------------------------------
+    # ========================================================
 
     return render_template(
 
         "index.html",
 
+
+        # ----------------------------------------------------
+        # BASIC STATISTICS
+        # ----------------------------------------------------
+
         total_students=total_students,
+
         total_features=total_features,
 
+
+        # ----------------------------------------------------
+        # PLACEMENT
+        # ----------------------------------------------------
+
         placed_students=placed_students,
+
         not_placed_students=not_placed_students,
 
+        placement_rate=placement_rate,
+
+
+        # ----------------------------------------------------
+        # DATA QUALITY
+        # ----------------------------------------------------
+
         missing_values=missing_values,
+
         duplicates=duplicates,
 
-        placement_rate=placement_rate,
+
+        # ----------------------------------------------------
+        # AVERAGES
+        # ----------------------------------------------------
+
         average_cgpa=average_cgpa,
+
         average_salary=average_salary,
 
-        eda_images=eda_images
+
+        # ----------------------------------------------------
+        # DATASET INFORMATION
+        # ----------------------------------------------------
+
+        column_names=column_names,
+
+        missing_report=missing_report,
+
+
+        # ----------------------------------------------------
+        # EDA
+        # ----------------------------------------------------
+
+        eda_images=eda_images,
+
+
+        # ----------------------------------------------------
+        # PREPROCESSING
+        # ----------------------------------------------------
+
+        preprocessing_available=(
+            preprocessing_status["available"]
+        ),
+
+        preprocessed_features=(
+            preprocessing_status["columns"]
+        )
+
     )
 
 
-# =================================================
-# RUN APPLICATION
-# =================================================
+# ============================================================
+# RUN FLASK APPLICATION
+# ============================================================
 
 if __name__ == "__main__":
+
+    print("\n============================================")
+    print("Starting PlacementAI Flask Dashboard")
+    print("============================================")
 
     app.run(
         debug=True
