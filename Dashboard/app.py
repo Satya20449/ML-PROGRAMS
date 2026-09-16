@@ -3,6 +3,7 @@ import pandas as pd
 from pathlib import Path
 import shutil
 
+
 app = Flask(__name__)
 
 
@@ -23,6 +24,9 @@ EDA_SOURCE = BASE_DIR.parent / "eda_output"
 
 # Dashboard EDA images folder
 EDA_DESTINATION = BASE_DIR / "static" / "eda_images"
+
+# Clustering output images folder
+CLUSTERING_DESTINATION = BASE_DIR / "static" / "clustering_images"
 
 
 # ============================================================
@@ -56,6 +60,58 @@ def copy_eda_images():
                 print(
                     f"Could not copy {image.name}: {e}"
                 )
+
+
+# ============================================================
+# COPY CLUSTERING IMAGES
+# ============================================================
+
+def copy_clustering_images():
+
+    # Create clustering images folder
+    CLUSTERING_DESTINATION.mkdir(
+        parents=True,
+        exist_ok=True
+    )
+
+    # Clustering image filenames
+    clustering_files = [
+        "kmeans_elbow_method.png",
+        "kmeans_final_clusters.png",
+        "kmeans_outliers.png",
+        "kmeans_simple_clusters.png"
+    ]
+
+    # Copy each clustering image
+    for filename in clustering_files:
+
+        source = BASE_DIR.parent / filename
+        destination = CLUSTERING_DESTINATION / filename
+
+        if source.exists():
+
+            try:
+
+                shutil.copy2(
+                    source,
+                    destination
+                )
+
+                print(
+                    f"Copied clustering image: {filename}"
+                )
+
+            except Exception as e:
+
+                print(
+                    f"Could not copy {filename}: {e}"
+                )
+
+        else:
+
+            print(
+                f"Clustering image not found: {filename}"
+            )
 
 
 # ============================================================
@@ -111,6 +167,27 @@ def check_preprocessed_data():
 
 
 # ============================================================
+# GET CLUSTERING IMAGES
+# ============================================================
+
+def get_clustering_images():
+
+    clustering_images = []
+
+    if CLUSTERING_DESTINATION.exists():
+
+        clustering_images = sorted(
+            [
+                image.name
+                for image
+                in CLUSTERING_DESTINATION.glob("*.png")
+            ]
+        )
+
+    return clustering_images
+
+
+# ============================================================
 # DASHBOARD HOME
 # ============================================================
 
@@ -118,7 +195,7 @@ def check_preprocessed_data():
 def home():
 
     print("\n============================================")
-    print("Loading PlacementAI Dashboard...")
+    print("Loading Placement Dashboard...")
     print("============================================")
 
 
@@ -127,6 +204,13 @@ def home():
     # ========================================================
 
     copy_eda_images()
+
+
+    # ========================================================
+    # COPY CLUSTERING IMAGES
+    # ========================================================
+
+    copy_clustering_images()
 
 
     # ========================================================
@@ -274,7 +358,6 @@ def home():
             df["PlacementStatus"] == 1
         ]
 
-
         average_salary = round(
 
             pd.to_numeric(
@@ -299,7 +382,6 @@ def home():
 
     eda_images = []
 
-
     if EDA_DESTINATION.exists():
 
         eda_images = sorted(
@@ -313,6 +395,13 @@ def home():
             ]
 
         )
+
+
+    # ========================================================
+    # CLUSTERING IMAGES
+    # ========================================================
+
+    clustering_images = get_clustering_images()
 
 
     # ========================================================
@@ -379,6 +468,11 @@ def home():
     print(
         "EDA Images:",
         len(eda_images)
+    )
+
+    print(
+        "Clustering Images:",
+        len(clustering_images)
     )
 
     print(
@@ -456,6 +550,13 @@ def home():
 
 
         # ----------------------------------------------------
+        # CLUSTERING
+        # ----------------------------------------------------
+
+        clustering_images=clustering_images,
+
+
+        # ----------------------------------------------------
         # PREPROCESSING
         # ----------------------------------------------------
 
@@ -477,7 +578,7 @@ def home():
 if __name__ == "__main__":
 
     print("\n============================================")
-    print("Starting PlacementAI Flask Dashboard")
+    print("Starting Placement Flask Dashboard")
     print("============================================")
 
     app.run(
